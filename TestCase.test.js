@@ -21,5 +21,9 @@ test('should return "Neutral" for an empty message', () => {
     expect(moodAnalyser.analyseMood()).toBe("Neutral");
 });
 
+test('should return "Happy" for null input', () => {
+    const moodAnalyser = new MoodAnalyser(null);
+    expect(moodAnalyser.analyseMood()).toBe("Happy");
+});
 
 
