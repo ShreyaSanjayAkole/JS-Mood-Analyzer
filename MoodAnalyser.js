@@ -1,3 +1,6 @@
+import { MoodAnalysisException, ErrorType } from './MoodAnalysisException.js';
+
+
 class MoodAnalyser {
     constructor(message = "") {
       this.message = message;
@@ -6,9 +9,15 @@ class MoodAnalyser {
     analyseMood() {
       try {
         
-        if (this.message == null || typeof this.message !== "string") {
+        if (typeof this.message !== "string") {
               throw new Error("Invalid mood message");
           }
+        if (this.message === null) {
+            throw new MoodAnalysisException("Mood cannot be null", ErrorType.NULL);
+        }
+        if (this.message.trim() === "") {
+            throw new MoodAnalysisException("Mood cannot be empty", ErrorType.EMPTY);
+        }
         const happyKeywords = ["happy", "joy", "any","excited", "pleased", "delighted"];
         const sadKeywords = ["sad", "unhappy", "upset", "down", "depressed"];
     
@@ -24,7 +33,14 @@ class MoodAnalyser {
 
         return "Neutral";
       }catch (error) {
-        return "Happy";
+        if (error instanceof MoodAnalysisException) {
+            console.error(`${error.name}: ${error.message} (ErrorType: ${error.errorType})`);
+            throw error;  // Rethrow for test cases to catch
+        }
+        else{
+            return "Happy";
+        }
+        
     }
   }
 }
