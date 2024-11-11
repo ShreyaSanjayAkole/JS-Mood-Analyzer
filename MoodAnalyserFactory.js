@@ -13,9 +13,9 @@ class MoodAnalyserFactory {
             return Reflect.construct(MoodAnalyser, []);
         } catch (error) {
             if (error instanceof TypeError) {
-                throw new MoodAnalysisException("No Such Method Error", ErrorType.NO_SUCH_METHOD);
+                throw new MoodAnalysisException("No Such Method Error", ErrorType.METHOD_NOT_FOUND);
             } else {
-                throw new MoodAnalysisException("No Such Class Error", ErrorType.NO_SUCH_CLASS);
+                throw new MoodAnalysisException("No Such Class Error", ErrorType.CLASS_NOT_FOUND);
             }
         }
     }
