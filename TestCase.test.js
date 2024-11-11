@@ -72,6 +72,36 @@ describe("UC4", () => {
         }).toThrowError(new MoodAnalysisException("Constructor parameters are incorrect", ErrorType.METHOD_NOT_FOUND));
     });
 });
+
+describe("UC5", () => {
+    test("TC 5.1: Given MoodAnalyser Class Name When Proper Should Return MoodAnalyser Object", () => {
+        const moodAnalyser1 = new MoodAnalyser("I am feeling happy");
+        const moodAnalyser2 = MoodAnalyserFactory.createMoodAnalyser("I am feeling happy");
+
+        expect(moodAnalyser1.equals(moodAnalyser2)).toBe(true);
+    });
+
+    test("TC 5.2: Given Class Name When Improper Should Throw MoodAnalysisException", () => {
+        try {
+            MoodAnalyserFactory.createMoodAnalyser("InvalidClass");
+        } catch (error) {
+            expect(error).toBeInstanceOf(MoodAnalysisException);
+            expect(error.errorType).toBe(ErrorType.NO_SUCH_CLASS);
+            expect(error.message).toBe("No Such Class Error");
+        }
+    });
+
+    test("TC 5.3: Given Class When Constructor Not Proper Should Throw MoodAnalysisException", () => {
+        try {
+            // Intentionally passing wrong parameter to simulate constructor error
+            MoodAnalyserFactory.createMoodAnalyser(12345);
+        } catch (error) {
+            expect(error).toBeInstanceOf(MoodAnalysisException);
+            expect(error.errorType).toBe(ErrorType.NO_SUCH_METHOD);
+            expect(error.message).toBe("No Such Method Error");
+        }
+    });
+});
     
 
     
