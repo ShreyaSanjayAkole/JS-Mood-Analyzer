@@ -43,7 +43,12 @@ class MoodAnalyser {
         
     }
   }
+  equals(other) {
+    return other instanceof MoodAnalyser && this.message === other.message;
 }
+}
+
+
 
 if (typeof window !== "undefined") {
     const userMessage = prompt("How are you feeling today?");
