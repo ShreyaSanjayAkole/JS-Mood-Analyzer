@@ -86,7 +86,7 @@ describe("UC5", () => {
             MoodAnalyserFactory.createMoodAnalyser("InvalidClass");
         } catch (error) {
             expect(error).toBeInstanceOf(MoodAnalysisException);
-            expect(error.errorType).toBe(ErrorType.NO_SUCH_CLASS);
+            expect(error.errorType).toBe(ErrorType.CLASS_NOT_FOUND);
             expect(error.message).toBe("No Such Class Error");
         }
     });
@@ -97,7 +97,27 @@ describe("UC5", () => {
             MoodAnalyserFactory.createMoodAnalyser(12345);
         } catch (error) {
             expect(error).toBeInstanceOf(MoodAnalysisException);
-            expect(error.errorType).toBe(ErrorType.NO_SUCH_METHOD);
+            expect(error.errorType).toBe(ErrorType.METHOD_NOT_FOUND);
+            expect(error.message).toBe("No Such Method Error");
+        }
+    });
+});
+
+describe("UC6", () => {
+    test("UC 6: Given Happy Message Using Reflection When Proper Should Return 'Happy' Mood", () => {
+        const moodAnalyser = MoodAnalyserFactory.createMoodAnalyser("I am feeling happy");
+        const mood = MoodAnalyserFactory.invokeMethod(moodAnalyser, "analyseMood");
+        expect(mood).toBe("Happy");
+    });
+
+    test("TC 6.1: Given Happy Message When Improper Method Should Throw MoodAnalysisException", () => {
+        const moodAnalyser = MoodAnalyserFactory.createMoodAnalyser("I am feeling happy");
+
+        try {
+            MoodAnalyserFactory.invokeMethod(moodAnalyser, "incorrectMethodName");
+        } catch (error) {
+            expect(error).toBeInstanceOf(MoodAnalysisException);
+            expect(error.errorType).toBe(ErrorType.METHOD_NOT_FOUND);
             expect(error.message).toBe("No Such Method Error");
         }
     });
