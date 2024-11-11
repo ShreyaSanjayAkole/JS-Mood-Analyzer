@@ -2,6 +2,8 @@
 export const ErrorType = {
     NULL: "NULL",
     EMPTY: "EMPTY",
+    CLASS_NOT_FOUND: "CLASS_NOT_FOUND",
+    METHOD_NOT_FOUND: "METHOD_NOT_FOUND",
 };
 
 
