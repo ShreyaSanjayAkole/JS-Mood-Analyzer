@@ -5,12 +5,8 @@ import { MoodAnalysisException, ErrorType } from './MoodAnalysisException.js';
 class MoodAnalyserFactory {
     static createMoodAnalyser(message = null) {
         try {
-            // If message is provided, call the constructor with parameter
-            if (message !== null) {
-                return Reflect.construct(MoodAnalyser, [message]);
-            }
-            // If no message, call the default constructor
-            return Reflect.construct(MoodAnalyser, []);
+            const args = message !== null ? [message] : [];
+            return Reflect.construct(MoodAnalyser, args);
         } catch (error) {
             if (error instanceof TypeError) {
                 throw new MoodAnalysisException("No Such Method Error", ErrorType.METHOD_NOT_FOUND);
@@ -19,6 +15,24 @@ class MoodAnalyserFactory {
             }
         }
     }
+
+    static invokeMethod(object, methodName) {
+        try {
+           
+            if (Reflect.has(object, methodName)) {
+                return Reflect.apply(object[methodName], object, []);
+            } else {
+                throw new MoodAnalysisException("No Such Method Error", ErrorType.METHOD_NOT_FOUND);
+            }
+        } catch (error) {
+            if (error instanceof MoodAnalysisException) {
+                throw error;  
+            } else {
+                throw new MoodAnalysisException("No Such Method Error", ErrorType.METHOD_NOT_FOUND);
+            }
+        }
+    }
 }
+
 
 export default MoodAnalyserFactory;
