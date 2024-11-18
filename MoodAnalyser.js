@@ -43,9 +43,7 @@ class MoodAnalyser {
         
     }
   }
-  equals(other) {
-    return other instanceof MoodAnalyser && this.message === other.message;
-}
+  
 }
 
 
