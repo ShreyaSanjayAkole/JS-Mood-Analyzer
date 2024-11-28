@@ -1,38 +1,23 @@
 
-import MoodAnalyser from './MoodAnalyser.js';
 import { MoodAnalysisException, ErrorType } from './MoodAnalysisException.js';
 
 class MoodAnalyserFactory {
-    static createMoodAnalyser(message = null) {
-        try {
-            const args = message !== null ? [message] : [];
-            return Reflect.construct(MoodAnalyser, args);
-        } catch (error) {
-            if (error instanceof TypeError) {
-                throw new MoodAnalysisException("No Such Method Error", ErrorType.METHOD_NOT_FOUND);
-            } else {
-                throw new MoodAnalysisException("No Such Class Error", ErrorType.CLASS_NOT_FOUND);
-            }
+    static setField(instance, fieldName, value) {
+        
+        if (!Reflect.has(instance, fieldName)) {
+            throw new MoodAnalysisException(`No such field: ${fieldName}`, ErrorType.FIELD_NOT_FOUND);
         }
+        Reflect.set(instance, fieldName, value);
     }
 
-    static invokeMethod(object, methodName) {
-        try {
-           
-            if (Reflect.has(object, methodName)) {
-                return Reflect.apply(object[methodName], object, []);
-            } else {
-                throw new MoodAnalysisException("No Such Method Error", ErrorType.METHOD_NOT_FOUND);
-            }
-        } catch (error) {
-            if (error instanceof MoodAnalysisException) {
-                throw error;  
-            } else {
-                throw new MoodAnalysisException("No Such Method Error", ErrorType.METHOD_NOT_FOUND);
-            }
+    static invokeMethod(instance, methodName) {
+        
+        if (typeof instance[methodName] !== 'function') {
+            throw new MoodAnalysisException(`No such method: ${methodName}`, ErrorType.METHOD_NOT_FOUND);
         }
+        return Reflect.apply(instance[methodName], instance, []);
     }
 }
 
 
-export default MoodAnalyserFactory;
+module.exports = MoodAnalyserFactory;

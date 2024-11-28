@@ -1,7 +1,7 @@
 import { MoodAnalysisException, ErrorType } from './MoodAnalysisException.js';
 
 
-class MoodAnalyser {
+export default class MoodAnalyser {
     constructor(message = "") {
       this.message = message;
     }
@@ -35,7 +35,7 @@ class MoodAnalyser {
       }catch (error) {
         if (error instanceof MoodAnalysisException) {
             console.error(`${error.name}: ${error.message} (ErrorType: ${error.errorType})`);
-            throw error;  // Rethrow for test cases to catch
+            throw error;  
         }
         else{
             return "Happy";
@@ -56,8 +56,6 @@ if (typeof window !== "undefined") {
     console.log(`Mood: ${moodAnalyser.analyseMood()}`);
 }
 
-if (typeof module !== "undefined" && typeof module.exports !== "undefined"){
-  module.exports = MoodAnalyser;
-}
+
   
   

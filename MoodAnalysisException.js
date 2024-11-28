@@ -1,9 +1,10 @@
-// Enum for Error Types
+
 export const ErrorType = {
     NULL: "NULL",
     EMPTY: "EMPTY",
     CLASS_NOT_FOUND: "CLASS_NOT_FOUND",
     METHOD_NOT_FOUND: "METHOD_NOT_FOUND",
+    FIELD_NOT_FOUND: 'FIELD_NOT_FOUND',
 };
 
 
